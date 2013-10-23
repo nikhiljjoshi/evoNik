@@ -24,23 +24,30 @@ path connecting entry and exit doors.
 More details at www.tinyurl.com/nikhiljjoshi/fun.html (smartness is complex)
 
 Expected outcomes are similar to 
+
 http://www.youtube.com/watch?v=ZQhC8Dxjz88 ,or
+
 http://www.youtube.com/watch?v=C7UFgx0GTjU
  
 
-## Usage
-
-./evoNik [EXPERIMENT NAME] [RUN NUMBER]
-
 ## Packages
 
-1. evoNik 
-runs the evolution for configuration set in constants.hpp
+1. evoNik - runs the evolution for configuration set in constants.hpp
 
-2. mazeSolver 
-builds animation for an instance of maze solving for a given maze, and a given 
-agent
+2. mazeSolver - builds animation for an instance of maze solving for a 
+given maze, and a given agent
 
+
+## Dependancies
+
+1. boost c++ library functionality
+
+2. additionary mazeSolver animation requires sfml c++ library
+
+
+
+## Usage:
+./evonik
 
 ## Parameters
 
