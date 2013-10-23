@@ -47,7 +47,10 @@ given maze, and a given agent
 
 
 ## Usage:
-./evonik
+./evonik [EXPERIMENT NAME STRING] [RUN NUMBER STRING]
+
+./mazeSolver --help   (for all options)
+
 
 ## Parameters
 
@@ -56,4 +59,4 @@ in constants.hpp file
 
 ## TO DO
 1. Move class variables from public to private and add get/setters
-1. Pass parameters runtime using boost::program_options
+1. Pass parameters runtime using boost::program_options in evoNik
