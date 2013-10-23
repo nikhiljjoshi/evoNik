@@ -1,0 +1,17 @@
+lib boost_fs : : <name>boost_filesystem ;
+lib boost_io : : <name>boost_iostreams ;
+
+exe evoNik : main.cpp
+	nRun.cpp
+	nAnalyzer.cpp
+	nPopulation.cpp
+	nGame.cpp
+	nMaze.cpp
+	nAgent.cpp
+	nDijkstra.cpp
+	nGenome.cpp
+	nHMMUnit.cpp
+	ModularityToolset/ModularityToolset.cpp
+	ModularityToolset/PartitionEnumerator.cpp
+	boost_fs 
+	boost_io ;
