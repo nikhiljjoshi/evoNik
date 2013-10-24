@@ -17,16 +17,6 @@
 
 class nRun{
 public:
-    // run name
-    std::string m_runName;
-    // this run id
-    unsigned int m_id;
-    // working directory
-    fs::path m_thisRunDirectory;
-    // run data storage directory
-    fs::path m_dataDirectory;
-    // LOD, knockout, analysis data and evolution progress files
-    std::fstream m_lodFile, m_knockoutFile, m_analysisFile, m_progressFile, m_parameterFile;
     
     
     // constructor with id (for multiple runs)
@@ -50,6 +40,18 @@ public:
     void dumpRemainingLODandKnockout(unsigned int genID, nAgent& a, nGame& g);
     // close the run
     void close(void);
+    
+private:
+    // run name
+    std::string m_runName;
+    // this run id
+    unsigned int m_id;
+    // working directory
+    fs::path m_thisRunDirectory;
+    // run data storage directory
+    fs::path m_dataDirectory;
+    // LOD, knockout, analysis data and evolution progress files
+    std::fstream m_lodFile, m_knockoutFile, m_analysisFile, m_progressFile, m_parameterFile; 
     
 };
 

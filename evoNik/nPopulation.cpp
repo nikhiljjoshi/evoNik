@@ -318,7 +318,7 @@ void nPopulation::cleanLineage(){
             m_parentPopulation->m_members.back()->printGenome(*m_lodOutput);
             
             // perform knockout analysis for the "single" parent
-            nAgent* origPlayer = m_game->m_player;
+            nAgent* origPlayer = m_game->getPlayer();
             m_parentPopulation->m_members.back()->m_alive = true;
             m_game->updatePlayer(*m_parentPopulation->m_members.back());
             *m_game->m_knockoutOutput << "# Gen no. " << m_parentPopulation->m_id << ":" << std::endl;

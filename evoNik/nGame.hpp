@@ -17,8 +17,6 @@
 
 class nGame{
 public:
-    nAgent* m_player;
-    nMaze* m_playGround;
     
     // player knockout data stream
     std::ostream* m_knockoutOutput;
@@ -47,6 +45,10 @@ public:
     // member functions
     // check validity
     bool isValid(void);
+    // get player
+    nAgent* getPlayer(void)                           { return m_player; }
+    // getter for maze
+    nMaze* getPlayGround(void)                        { return m_playGround; }
     // update player
     void updatePlayer(nAgent& a)                      { m_player = &a; }
     // update playGround
@@ -65,6 +67,11 @@ public:
     void profilePlayerKnockout();
     // set player knockout output stream
     void setKnockoutStream(std::ostream& output)       { m_knockoutOutput = &output; }
+    
+private:
+    nAgent* m_player;
+    nMaze* m_playGround;
+
     
 };
 

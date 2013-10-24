@@ -16,24 +16,7 @@
 
 class nPopulation{
 public:
-    // master id 
-    static unsigned int generationID;
-    
-    // id for this generation
-    unsigned int m_id;
-    // parent population
-    nPopulation* m_parentPopulation;
-    // members of population
-    std::vector<nAgent*> m_members;
-    // whether ranked (according to ascending fitness)
-    bool m_ranked;
-    // game for evaluation and knockout profiling of the population
-    nGame* m_game;
-     
-    // LOD data output stream
-    std::ostream* m_lodOutput;
-    // analysis data output stream
-    std::ostream* m_analysisOutput;
+   
     
     // constructor for empty population
     nPopulation(): 
@@ -94,6 +77,8 @@ public:
     // member functions
     // get generation id
     unsigned int getGenerationID(void)                   { return m_id; }
+    // get the members
+    std::vector<nAgent*> getMembers(void)                { return m_members; }
     // set parent population
     void setParentPopulation(nPopulation& pop)           { m_parentPopulation = &pop; }
     // populate
@@ -131,6 +116,26 @@ public:
     
     
 private:
+    // master id
+    static unsigned int generationID;
+    
+    // id for this generation
+    unsigned int m_id;
+    // parent population
+    nPopulation* m_parentPopulation;
+    // members of population
+    std::vector<nAgent*> m_members;
+    // whether ranked (according to ascending fitness)
+    bool m_ranked;
+    // game for evaluation and knockout profiling of the population
+    nGame* m_game;
+    
+    // LOD data output stream
+    std::ostream* m_lodOutput;
+    // analysis data output stream
+    std::ostream* m_analysisOutput;
+    
+    
     // for ranking fitnesses (by pointers to agents)
     struct compareFitnesses{
         bool operator ()(const nAgent* a1, const nAgent* a2){

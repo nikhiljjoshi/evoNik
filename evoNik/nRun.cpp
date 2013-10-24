@@ -92,12 +92,12 @@ void nRun::go(){
 
         generations.back()->evaluate(runGame);
           
-        m_progressFile << generations.back()->m_id << "\t" 
+        m_progressFile << generations.back()->getGenerationID() << "\t"
         << generations.back()->getAverageFitness() << "\t"
         << generations.back()->getMaxFitness() << std::endl;
         
         if (!suppressMessages)
-            std::cout << "Gen. no. " << generations.back()->m_id 
+            std::cout << "Gen. no. " << generations.back()->getGenerationID()
             << "\tAve. fitness = " << generations.back()->getAverageFitness() 
             << "\tMax. fitness = " << generations.back()->getMaxFitness() << std::endl;
         
@@ -107,7 +107,7 @@ void nRun::go(){
         generations.push_back(newPop);
         
         // clean up empty generations
-        if (generations[0]->m_members.size() == 0) {
+        if (generations[0]->getMembers().size() == 0) {
             delete generations[0];
             generations.erase(generations.begin());
         }
@@ -117,8 +117,8 @@ void nRun::go(){
     // complete the LOD and knockout and analysis
     // (the latter generations have more than one species and hence not removed)
     generations.back()->rank();
-    this->dumpRemainingLODandKnockout(generations.back()->m_id,
-                                      *generations.back()->m_members[0], 
+    this->dumpRemainingLODandKnockout(generations.back()->getGenerationID(),
+                                      *(generations.back()->getMembers())[0],
                                       runGame);
 }
 
@@ -137,7 +137,7 @@ void nRun::dumpRemainingLODandKnockout(unsigned int genID, nAgent& a, nGame& gam
     a.printGenome(m_lodFile);
     
     // perform knockout analysis for the this guy
-    nAgent* origPlayer = game.m_player;
+    nAgent* origPlayer = game.getPlayer();
     a.m_alive = true;
     game.updatePlayer(a);
     *(game.m_knockoutOutput) << "# Gen no. " << genID << ":" << std::endl;
