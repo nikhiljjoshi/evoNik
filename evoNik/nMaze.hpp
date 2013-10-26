@@ -14,14 +14,6 @@
 
 class nMaze{
 public:
-    //maze dimensions
-    unsigned int m_x, m_y;
-    // floor plan
-    std::vector<std::vector<unsigned int> > m_plan;
-    // fitness landscape
-    std::vector<std::vector<double> > m_fitnessLandscape;
-    // door position list
-    std::vector<position> m_doors;
     
     // constructor
     nMaze(unsigned int x, unsigned y):m_x(x), m_y(y){
@@ -34,6 +26,15 @@ public:
     
     
     // member functions
+    // get dimensions
+    unsigned int getX(void)                                      { return m_x; }
+    unsigned int getY(void)                                      { return m_y; }    
+    // get door plan
+    std::vector<position>& getDoors(void)                         { return m_doors;  }
+    // get floor plan
+    std::vector<std::vector<unsigned int>>& getFloorPlan(void)    { return m_plan; }
+    // get fitness landscape
+    std::vector<std::vector<double>>& getFitnessLandscape(void)   { return m_fitnessLandscape; }
     // create maze
     void create(void);
     // is it a valid maze
@@ -46,7 +47,17 @@ public:
     void sprinkleFood(void);
     // replanish fresh food
     void replanishFood(void);
-            
+    
+private:
+    //maze dimensions
+    unsigned int m_x, m_y;
+    // floor plan
+    std::vector<std::vector<unsigned int> > m_plan;
+    // fitness landscape
+    std::vector<std::vector<double> > m_fitnessLandscape;
+    // door position list
+    std::vector<position> m_doors;
+    
 };
 
 #endif

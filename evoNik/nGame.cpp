@@ -44,7 +44,7 @@ void nGame::execute(unsigned int lapTime){
     }
     
     // place the player in the maze (in front of the first door)
-    m_player->m_position = position(0, m_playGround->m_doors[0].y);
+    m_player->m_position = position(0, (m_playGround->getDoors())[0].y);
     // update history
     m_player->m_trajectory.push_back(m_player->m_position);
     
@@ -79,9 +79,9 @@ void nGame::execute(unsigned int lapTime){
             if (huntForFood && m_player->m_id != 1234567890) {
                 // if mouth (bit # 9) is open and if the food was not already consumed
                 if (((m_player->m_curState >> 9)&1) && 
-                    !((m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y] >> 3)&1)) {
+                    !((m_playGround->getFloorPlan()[m_player->m_position.x][m_player->m_position.y] >> 3)&1)) {
                     // if food is healthy
-                    if (((m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y] >> 2)&1) ) {
+                    if (((m_playGround->getFloorPlan()[m_player->m_position.x][m_player->m_position.y] >> 2)&1) ) {
                         lapTime += 2; 
                         // keep lapTime lower than (maximum) evaluation time
                         if (lapTime > evaluationTime)
@@ -91,7 +91,7 @@ void nGame::execute(unsigned int lapTime){
                         lapTime = (unsigned int)std::max((int)lapTime - 4, 0);
                                         
                     // make the food consumed
-                    applyBit(m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y], 3, 1);
+                    applyBit(m_playGround->getFloorPlan()[m_player->m_position.x][m_player->m_position.y], 3, 1);
                 }
             }
             
@@ -105,7 +105,7 @@ void nGame::execute(unsigned int lapTime){
             
             // update the fitness of the player
             if (m_player->m_id != 1234567890)    // for solver don't worry about fitness
-                fitness = m_playGround->m_fitnessLandscape[m_player->m_position.x][m_player->m_position.y];
+                fitness = m_playGround->getFitnessLandscape()[m_player->m_position.x][m_player->m_position.y];
             
             // if it reached the goal
             if (fitness == 1) {
@@ -114,7 +114,7 @@ void nGame::execute(unsigned int lapTime){
                 // reset fitness
                 fitness = 0;
                 // place the agent at the maze entry again
-                m_player->m_position = position(0, m_playGround->m_doors[0].y);
+                m_player->m_position = position(0, (m_playGround->getDoors())[0].y);
             }
             
         }
@@ -177,36 +177,36 @@ void nGame::exposePlayGround(){
     // expose the local play ground to the player
     // bit 0 : retina
     applyBit(m_player->m_curState, 0, 
-             m_playGround->m_plan[m_player->m_position.x + 1][m_player->m_position.y]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x + 1][m_player->m_position.y]&1);
     applyBit(m_player->m_prevState, 0, 
-             m_playGround->m_plan[m_player->m_position.x + 1][m_player->m_position.y]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x + 1][m_player->m_position.y]&1);
     
     // bit 1 : left collision sensor
     applyBit(m_player->m_curState, 1, 
-             m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y - 1]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y - 1]&1);
     applyBit(m_player->m_prevState, 1, 
-             m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y - 1]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y - 1]&1);
  
     // bit 2 : right collision sensor
     applyBit(m_player->m_curState, 2, 
-             m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y + 1]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y + 1]&1);
     applyBit(m_player->m_prevState, 2, 
-             m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y + 1]&1);
+             (m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y + 1]&1);
     
     // bit 3 : door sensor
     applyBit(m_player->m_curState, 3, 
-             (m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y]>>1)&1);
+             ((m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y]>>1)&1);
     applyBit(m_player->m_prevState, 3, 
-             (m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y]>>1)&1);
+             ((m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y]>>1)&1);
     
     // bit 4 : food smell sensor
     applyBit(m_player->m_curState, 4, 0);
     applyBit(m_player->m_prevState, 4, 0);
     if (huntForFood) {
         applyBit(m_player->m_curState, 4, 
-                 (m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y]>>2)&1);
+                 ((m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y]>>2)&1);
         applyBit(m_player->m_prevState, 4, 
-                 (m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y]>>2)&1);
+                 ((m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y]>>2)&1);
     }        
     
     // bit 5 : gravity pull sensor
@@ -246,7 +246,7 @@ void nGame::movePlayer(){
     
     // check if the player sits on top of a wall
     // if so, take it back to previous position
-    if (m_playGround->m_plan[m_player->m_position.x][m_player->m_position.y] == 1)
+    if ((m_playGround->getFloorPlan())[m_player->m_position.x][m_player->m_position.y] == 1)
         m_player->m_position = m_player->m_prevPosition;
     
     // update the trajectory
@@ -337,7 +337,7 @@ void nGame::constructFitnessLandscape(){
         << "can not construct fitness landscape" << std::endl;
     
     // erase previous fitness landscape
-    m_playGround->m_fitnessLandscape.clear();
+    m_playGround->getFitnessLandscape().clear();
     
     // set a reasonable goal in the maze
     // (reach of "Einstein")
@@ -418,15 +418,15 @@ void nGame::constructFitnessLandscape(){
         std::cout << "Solver is solving the maze" << std::endl;
    
     // make him solve
-    execute(m_playGround->m_x - 10);
+    execute(m_playGround->getX() - 10);
 
     // that's the goal
     position goal = m_player->m_position;
     
     // construct fitness landscape
     nDijkstra dijk;
-    dijk.buildGraph(m_playGround->m_plan, false);
-    dijk.computeFitnessArray(m_playGround->m_fitnessLandscape, 
+    dijk.buildGraph(m_playGround->getFloorPlan(), false);
+    dijk.computeFitnessArray(m_playGround->getFitnessLandscape(),
                              goal.x, 
                              goal.y);
     
